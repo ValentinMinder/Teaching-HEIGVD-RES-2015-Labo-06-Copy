@@ -56,5 +56,6 @@ Here is what you are requested to do:
   * the list of commands you have used to define the dynamic groups and to obtain the list of their members (with the result).
   * Screenshots for the above elements.
 
-* You can work **alone** or in **pairs** of students.
+* You can work **alone** or in **pairs** of students. 
+* Edit: This lab was done by Eleonore D'Agostino (@paranoodle) and Valentin Minder (@ValentinMinder).
 
