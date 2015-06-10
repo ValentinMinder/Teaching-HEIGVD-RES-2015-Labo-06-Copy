@@ -67,6 +67,7 @@ public class DataGenerator {
         email = firstName + "." + lastName + "@" + "heig-vd.ch";
         email = email.toLowerCase();
         email = Normalizer.normalize(email, Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+        email = email.replaceAll("\\s+","");
 
         uniqueIdCounter++;
 

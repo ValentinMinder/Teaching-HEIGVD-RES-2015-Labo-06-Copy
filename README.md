@@ -5,6 +5,7 @@
 1. [Introduction](#Introduction)
 1. [Tasks](#Tasks)
 1. [Deliverables](#Deliverables)
+1. [Useful LDAP Commands](#Commands)
 
 # <a name="Introduction"></a>Introduction
 
@@ -59,3 +60,21 @@ Here is what you are requested to do:
 * You can work **alone** or in **pairs** of students. 
 * Edit: This lab was done by Eleonore D'Agostino (@paranoodle) and Valentin Minder (@ValentinMinder).
 
+# <a name="Commands"></a>Useful LDAP Commands
+
+## Import LDIF file
+
+`sudo /opt/opendj/bin/import-ldif -h localhost -p 4444 -b dc=heigvd,dc=ch -l /vagrant/users.ldif -R /vagrant/rejected.ldif --skipFile /vagrant/skipped.ldif`
+
+The `-l` option specifies the path to the LDIF file to import.
+The `-R` and `--skipFile` options specify where to save the error files if the import is not successful.
+
+## Basic search
+
+This finds all records under the `dc=heigvd,dc=ch` base DN.
+
+`ldapsearch -D "cn=Directory Manager" -b "dc=heigvd,dc=ch" "objectClass=*"`
+
+## Delete all entries
+
+`/opt/opendj/bin/ldapdelete -D "cn=Directory manager" -x "ou=People,dc=heigvd,dc=ch"`
