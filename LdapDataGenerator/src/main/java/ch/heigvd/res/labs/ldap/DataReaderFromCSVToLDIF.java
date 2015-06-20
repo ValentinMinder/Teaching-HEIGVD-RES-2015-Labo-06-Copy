@@ -26,7 +26,7 @@ public class DataReaderFromCSVToLDIF {
         BufferedReader in;
         BufferedReader base;
         try {
-            bw = new PrintWriter(new OutputStreamWriter(new FileOutputStream("users.ldif"), "UTF-8"));
+            bw = new PrintWriter(new OutputStreamWriter(new FileOutputStream("javausers.ldif"), "UTF-8"));
             in = new BufferedReader(new FileReader("users.csv"));
             base = new BufferedReader(new FileReader("base.ldif"));
             

@@ -140018,33 +140018,19 @@ mail: bryan.belmondo@heig-vd.ch
 departmentNumber: EC
 employeeType: Assistant
 
-dn: cn=DptDEPG,ou=Departments,dc=contacts,dc=heigvd,dc=ch
-cn: DptDEPG
-objectClass: top
-objectClass: groupOfURLs
-ou: Departments
-memberURL: ldap:///ou=People,dc=contacts,dc=heigvd,dc=ch??sub?departmentNumber=DEPG
-
-dn: cn=DptTIN,ou=Departments,dc=contacts,dc=heigvd,dc=ch
-cn: DptTIN
-objectClass: top
-objectClass: groupOfURLs
-ou: Departments
-memberURL: ldap:///ou=People,dc=contacts,dc=heigvd,dc=ch??sub?departmentNumber=TIN
-
-dn: cn=DptHEG,ou=Departments,dc=contacts,dc=heigvd,dc=ch
-cn: DptHEG
-objectClass: top
-objectClass: groupOfURLs
-ou: Departments
-memberURL: ldap:///ou=People,dc=contacts,dc=heigvd,dc=ch??sub?departmentNumber=HEG
-
 dn: cn=DptCOMEM,ou=Departments,dc=contacts,dc=heigvd,dc=ch
 cn: DptCOMEM
 objectClass: top
 objectClass: groupOfURLs
 ou: Departments
 memberURL: ldap:///ou=People,dc=contacts,dc=heigvd,dc=ch??sub?departmentNumber=COMEM
+
+dn: cn=DptDEPG,ou=Departments,dc=contacts,dc=heigvd,dc=ch
+cn: DptDEPG
+objectClass: top
+objectClass: groupOfURLs
+ou: Departments
+memberURL: ldap:///ou=People,dc=contacts,dc=heigvd,dc=ch??sub?departmentNumber=DEPG
 
 dn: cn=DptEC,ou=Departments,dc=contacts,dc=heigvd,dc=ch
 cn: DptEC
@@ -140053,9 +140039,24 @@ objectClass: groupOfURLs
 ou: Departments
 memberURL: ldap:///ou=People,dc=contacts,dc=heigvd,dc=ch??sub?departmentNumber=EC
 
+dn: cn=DptHEG,ou=Departments,dc=contacts,dc=heigvd,dc=ch
+cn: DptHEG
+objectClass: top
+objectClass: groupOfURLs
+ou: Departments
+memberURL: ldap:///ou=People,dc=contacts,dc=heigvd,dc=ch??sub?departmentNumber=HEG
+
 dn: cn=DptTIC,ou=Departments,dc=contacts,dc=heigvd,dc=ch
 cn: DptTIC
 objectClass: top
 objectClass: groupOfURLs
 ou: Departments
 memberURL: ldap:///ou=People,dc=contacts,dc=heigvd,dc=ch??sub?departmentNumber=TIC
+
+dn: cn=DptTIN,ou=Departments,dc=contacts,dc=heigvd,dc=ch
+cn: DptTIN
+objectClass: top
+objectClass: groupOfURLs
+ou: Departments
+memberURL: ldap:///ou=People,dc=contacts,dc=heigvd,dc=ch??sub?departmentNumber=TIN
+
