@@ -24,7 +24,7 @@ def pou(name):
     
 def pdg(name,dpt):
     global domain
-    p("dn", "cn=" + name + ",ou=Groups," + domain)
+    p("dn", "cn=" + name + ",ou=Departments," + domain)
     p("cn", name)
     poc("top")
     poc("groupOfURLs")
