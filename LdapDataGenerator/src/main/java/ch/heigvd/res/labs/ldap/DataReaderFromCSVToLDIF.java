@@ -18,6 +18,8 @@ import java.util.logging.Logger;
  */
 public class DataReaderFromCSVToLDIF {
 
+    // should be true if a class "heigPerson" with a "gender" has been defined
+    public static final boolean hasExtendedSchema = false;
     /**
      * @param args the command line arguments
      */
@@ -65,6 +67,9 @@ public class DataReaderFromCSVToLDIF {
                 bw.println("objectClass: person");
                 bw.println("objectClass: organizationalPerson");
                 bw.println("objectClass: inetOrgPerson");
+                if (hasExtendedSchema) {
+                    bw.println("objectClass: heigPerson");
+                }
                 bw.println("uid: " + token[0]);
                 bw.println("sn: " + token[1]); // surname
                 bw.println("givenName: " + token[2] ); // given name
@@ -76,8 +81,12 @@ public class DataReaderFromCSVToLDIF {
                 departements.add(token[6]);
                 bw.println("employeeType: " + token[7]);
                 
-                // TODO: sex better than this description
-                //bw.println("description: SEX=" + token[5]);
+                // we write the title in ALL cases
+                bw.println("title: " + (token[5].equals(Person.Gender.FEMALE.name()) ? "Miss": "Mister"));
+                // in case of extended schema, with heigPerson and gender, write the gender
+                if (hasExtendedSchema) {
+                    bw.println("gender: " + token[5]);
+                } //
             }
 
             // handling departments
