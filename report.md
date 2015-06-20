@@ -61,7 +61,7 @@ The following commands require first adding the organisational unit `Groups` und
 `objectClass: top`  
 `objectClass: groupOfURLs`  
 `ou: Groups`  
-`memberURL: ldap:///ou=People,dc=heigvd,dc=ch??sub?departmentNumber=TIN`
+`memberURL: ldap:///ou=People,dc=contacts,dc=heigvd,dc=ch??sub?departmentNumber=TIN`
 
 * What command do you run to **get the list of all members of the TIN Department**?  
 `./ldapsearch -p 389 -b "dc=contacts,dc=heigvd,dc=ch" "isMemberOf=cn=ExTIN,ou=Groups,dc=contacts,dc=heigvd,dc=ch" cn`
