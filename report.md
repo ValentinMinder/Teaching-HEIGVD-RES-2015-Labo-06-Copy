@@ -66,22 +66,38 @@ We have to specify `objectClass=OrganizationalUnit` because otherwise it will al
 
 The following commands require first adding the organisational unit `Groups` under `dc=contacts,dc=heigvd,dc=ch`
 
+You have two choices when creating dynamic groups. You can create them directly in the `.ldif` importation file, and they will be imported with the actual data. The other option is to "alter" the directory afterwards with `ldifmodify`. In out lab we did both once.
+
 * What command do you run to **define a dynamic group** that represents all members of the TIN Department?  
+
+Add the following in the `.ldif` file or in a `ldifmodify` command. In our lab, we choose to declare all departments in the `ldif` file as they can all be known at the end of the parsing.
 ```
-dn: cn=ExTIN,ou=Groups,dc=contacts,dc=heigvd,dc=ch
-cn: ExTIN
+dn: cn=DptTIN,ou=Departements,dc=contacts,dc=heigvd,dc=ch
+cn: DptTIN
 objectClass: top
 objectClass: groupOfURLs
-ou: Groups
+ou: Departments
 memberURL: ldap:///ou=People,dc=contacts,dc=heigvd,dc=ch??sub?departmentNumber=TIN
 ```
 
 * What command do you run to **get the list of all members of the TIN Department**?  
 ```
-./ldapsearch -p 389 -b "dc=contacts,dc=heigvd,dc=ch" "isMemberOf=cn=ExTIN,ou=Groups,dc=contacts,dc=heigvd,dc=ch" cn
+./ldapsearch -p 389 -b "dc=heigvd,dc=ch" "isMemberOf=cn=DptTIN,ou=Groups,dc=contacts,dc=heigvd,dc=ch" cn
 ```
 
+Results:
+
+[![](screenshots/Screenshot%202015-06-20%2015.54.11.png)](groupTIC-results)
+
+Full results:
+
+[![](screenshots/Screenshot%202015-06-20%2015.54.52.png)](groupTIC-fullResults)
+
 * What command do you run to **define a dynamic group** that represents all students with a last name starting with the letter 'A'?  
+
+
+Add the following in the `.ldif` file or in a `ldifmodify` command. 
+
 ```
 dn: cn=StdA,ou=Groups,dc=contacts,dc=heigvd,dc=ch
 cn: StdA
@@ -95,6 +111,38 @@ memberURL: ldap:///ou=People,dc=contacts,dc=heigvd,dc=ch??sub?(&(sn=A*)(employee
 ```
 ./ldapsearch -p 389 -b "dc=heigvd,dc=ch" "isMemberOf=cn=StdA,ou=Groups,dc=contacts,dc=heigvd,dc=ch" cn
 ```
+Results:
+
+[![](screenshots/Screenshot%202015-06-20%2015.55.13.png)](groupA-empty)
+
+As you can see, they are no results in this group. Unfortunately they are no surname starting with A at all. That's why we started again with another letter... Below you can find the command creating the dynamic group that represents all students with a given name starting with the letter 'E'. As it was unexpected, we choose to add this one dynamically with `ldifmodify`, with the following command:
+```
+ldapmodify -D "cn=directory manager" -p 389 -a
+```
+
+Then enter this text, followed by two Enter.
+
+```
+dn: cn=StdGivenNameE,ou=Groups,dc=contacts,dc=heigvd,dc=ch
+cn: StdGivenNameE
+objectClass: top  
+objectClass: groupOfURLs  
+ou: Groups
+memberURL: ldap:///ou=People,dc=contacts,dc=heigvd,dc=ch??sub?(&(givenName=E*)(employeeType=Etudiant))
+```
+[![](screenshots/Screenshot%202015-06-20%2016.28.38.png)](groupE-creation)
+
+And the corresponding search query.
+```
+./ldapsearch -p 389 -b "dc=heigvd,dc=ch" "isMemberOf=cn=StdGivenNameE,ou=Groups,dc=contacts,dc=heigvd,dc=ch" cn
+```
+Results:
+
+[![](screenshots/Screenshot%202015-06-20%2016.29.29.png)](groupE-result)
+
+Full results:
+
+[![](screenshots/Screenshot%202015-06-20%2016.30.04.png)](groupE-fullresult)
 
 # <a name="End"></a> Conclusion
 
