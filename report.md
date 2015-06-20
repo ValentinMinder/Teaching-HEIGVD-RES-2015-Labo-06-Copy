@@ -42,7 +42,7 @@ We use `departmentNumber` despite our departments being represented by letters b
 First, clone this repo.
 [Vagrant - OpenDJ repository](https://github.com/ValentinMinder/Teaching-HEIGVD-RES-2015-OpenDJ)
 
-Open a termianl, go in the `box` folder, type `vagrant up` (it will install everything needed, it might take a few minutes the first time) and then `vagrant ssh` (to open a vagrant terminal). Move to `cd /opt/opendj/bin`, where all openDJ commands are now located. Type `sudo ./start-ds` to start the directory. 
+Open a terminal, go in the `box` folder, type `vagrant up` (it will install everything needed, it might take a few minutes the first time) and then `vagrant ssh` (to open a vagrant terminal). Move to `cd /opt/opendj/bin`, where all openDJ commands are now located. Type `sudo ./start-ds` to start the directory. 
 
 Example:
 
@@ -71,7 +71,7 @@ Execution:
 [![](screenshots/Screenshot%202015-06-20%2015.43.55.png)](screenshots/Screenshot%202015-06-20%2015.43.55.png)
 
 
-Option `-R` and `--skipFile` tells what to do with problematic entries. If both files `skipped.ldif` and `rejected.ldif` are empty after this operation, it means that everything went well (as we can see in these screenshots).
+Options `-R` and `--skipFile` indicate what to do with problematic entries. If both `skipped.ldif` and `rejected.ldif` are empty after this operation, it means that everything went well (as we can see in these screenshots).
 
 
 [![](screenshots/Screenshot%202015-06-20%2015.44.24.png)](screenshots/Screenshot%202015-06-20%2015.44.24.png)
@@ -95,7 +95,7 @@ There are 10000 people in the directory. In the screenshot there are only 3000 b
 
 [![](screenshots/Screenshot%202015-06-20%2015.46.29.png)](screenshots/Screenshot%202015-06-20%2015.46.29.png)
 
-As you can see in the screenshot, despite of its name, the `--countEntries` option is useless for this question.
+As you can see in the screenshot, despite its name, the `--countEntries` option is useless for this question.
 
 * What is the **number** of departments stored in the directory?  
 ```
@@ -144,15 +144,15 @@ Results with details (only first results are shown):
 [![](screenshots/Screenshot%202015-06-20%2015.53.22.png)](screenshots/Screenshot%202015-06-20%2015.53.22.png)
 
 
-# <a name="Group"></a> Dynamic groupd commands
+# <a name="Group"></a> Dynamic group commands
 
 The following commands require first adding the organisational unit `Groups` under `dc=contacts,dc=heigvd,dc=ch`
 
-You have two choices when creating dynamic groups. You can create them directly in the `.ldif` importation file, and they will be imported with the actual data. The other option is to "alter" the directory afterwards with `ldifmodify`. In out lab we did both once.
+You have two choices when creating dynamic groups. You can create them directly in the `.ldif` importation file, and they will be imported with the actual data. The other option is to "alter" the directory afterwards with `ldapmodify`. In this lab we did both once.
 
 * What command do you run to **define a dynamic group** that represents all members of the TIN Department?  
 
-Add the following in the `.ldif` file or in a `ldifmodify` command. In our lab, we choose to declare all departments in the `ldif` file as they can all be known at the end of the parsing.
+Add the following in the `.ldif` file or in a `ldapmodify` command. In our lab, we choose to declare all departments in the `ldif` file as they can all be known at the end of the parsing.
 ```
 dn: cn=DptTIN,ou=Departements,dc=contacts,dc=heigvd,dc=ch
 cn: DptTIN
@@ -178,7 +178,7 @@ Results with details (only first results are shown):
 * What command do you run to **define a dynamic group** that represents all students with a last name starting with the letter 'A'?  
 
 
-Add the following in the `.ldif` file or in a `ldifmodify` command. 
+Add the following in the `.ldif` file or in a `ldapmodify` command. 
 
 ```
 dn: cn=StdA,ou=Groups,dc=contacts,dc=heigvd,dc=ch
@@ -197,7 +197,7 @@ Results:
 
 [![](screenshots/Screenshot%202015-06-20%2015.55.13.png)](screenshots/Screenshot%202015-06-20%2015.55.13.png)
 
-As you can see, they are no results in this group. Unfortunately they are no surname starting with A at all. That's why we started again with another letter... Below you can find the command creating the dynamic group that represents all students with a given name starting with the letter 'E'. As it was unexpected, we choose to add this one dynamically with `ldifmodify`, with the following command:
+As you can see, they are no results in this group. Unfortunately they are no surnames starting with A at all. Therefore we started again with another letter... Below you can find the command creating the dynamic group that represents all students with a given name starting with the letter 'E'. As it was unexpected, we choose to add this one dynamically with `ldapmodify`, with the following command:
 ```
 ldapmodify -D "cn=directory manager" -p 389 -a
 ```
@@ -228,15 +228,15 @@ Full results:
 
 
 # <a name="Issues"></a> Issues
-When working on the lab, we were always working on parrallel on small subsets to test the commands. At the end of the lab only, we tested to do everything "in a row": extraction, importation, and queries, with real data. That's where we encoutered a big problem: after the successful importation, none of the query was working anymore. We got the following error.
+When working on the lab, we were always working in parallel on small subsets to test the commands. It's only at the end of the lab that we tested everything "in a row": extraction, importation, and queries, with the real data. That's where we encoutered a big problem: after the successful importation, none of the queries were working anymore. We got the following error.
 
 ```
 LDAP_INSUFFICIENT_ACCESS
 ```
 
-According to the documentation and various sources, it indicates that "the caller does not have sufficient rights to perform the requested operation". It was quite hilarious because it was working perfectly with smaller subsets of data.
+According to the documentation and various sources, this indicates that "the caller does not have sufficient rights to perform the requested operation". It was quite unexpected given that it was working perfectly with smaller subsets of data.
 
-We soon figured out that it was a LDAP limitation. Actually, regular users cannot make request on unindexed elements when they are more then 4000 elements, apparently for efficiency reasons. So we tried almost everything to make the request as admin, to make the limit bigger, or to find any workaround. After 2 hours of hard work, we gave up, and decided to finish the lab with only 3000 elements, to make everything else work correctly.
+We soon figured out that it was an LDAP limitation. It seems regular users cannot make requests on unindexed elements when there are more then 4000 elements, apparently for efficiency reasons. So we tried almost everything, to make the request as admin, to make the limit bigger, or to find any workaround. After 2 hours of hard work, we gave up, and decided to finish the lab with only 3000 elements, to ensure everything else worked correctly.
 
 To find out more about this issue:
 
