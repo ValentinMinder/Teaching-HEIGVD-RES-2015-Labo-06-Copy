@@ -1,5 +1,10 @@
 # Lab 6: LDAP
 
+* This lab was done in June 2015 by [Eléonore d'Agostino](https://github.com/paranoodle) and [Valentin Minder](https://github.com/ValentinMinder) in the "[Network](https://github.com/wasadigi/Teaching-HEIGVD-RES)" course at HEIG-VD / HES-SO given by [Olivier Liecthi](https://github.com/wasadigi). 
+
+* Please see the actual lab and report [there](https://github.com/ValentinMinder/Teaching-HEIGVD-RES-2015-Labo-06/blob/master/report.md).
+
+
 ## Table of Contents
 
 1. [Introduction](#Introduction)
@@ -58,7 +63,9 @@ Here is what you are requested to do:
   * Screenshots for the above elements.
 
 * You can work **alone** or in **pairs** of students. 
-* Edit: This lab was done by Eleonore D'Agostino (@paranoodle) and Valentin Minder (@ValentinMinder).
+* Edit: This lab was done in June 2015 by [Eléonore d'Agostino](https://github.com/paranoodle) and [Valentin Minder](https://github.com/ValentinMinder) in the "[Network](https://github.com/wasadigi/Teaching-HEIGVD-RES)" course at HEIG-VD / HES-SO given by [Olivier Liecthi](https://github.com/wasadigi). 
+
+* Please see the actual lab and report [there](https://github.com/ValentinMinder/Teaching-HEIGVD-RES-2015-Labo-06/blob/master/report.md).
 
 # <a name="Commands"></a>Useful LDAP Commands
 
