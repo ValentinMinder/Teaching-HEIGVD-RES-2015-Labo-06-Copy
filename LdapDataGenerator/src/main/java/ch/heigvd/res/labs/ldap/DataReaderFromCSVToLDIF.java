@@ -68,7 +68,7 @@ public class DataReaderFromCSVToLDIF {
                 bw.println("uid: " + token[0]);
                 bw.println("sn: " + token[1]); // surname
                 bw.println("givenName: " + token[2] ); // given name
-                bw.println("cn: " + token[1] + " " + token[2]); // commun name
+                bw.println("cn: "  + token[2] + " " + token[1]); // commun name
                 bw.println("telephoneNumber: " + token[3]);
                 bw.println("mail: " + token[4]);
                 bw.println("departmentNumber: " + token[6] );
@@ -77,7 +77,7 @@ public class DataReaderFromCSVToLDIF {
                 bw.println("employeeType: " + token[7]);
                 
                 // TODO: sex better than this description
-                bw.println("description: SEX=" + token[5]);
+                //bw.println("description: SEX=" + token[5]);
             }
 
             // handling departments
@@ -85,14 +85,15 @@ public class DataReaderFromCSVToLDIF {
                 bw.println();
                 dpt = dpt.trim();
                 bw.print("dn: cn=Dpt" + dpt);
-                bw.println(",ou=Department,dc=contacts,dc=heigvd,dc=ch");
+                bw.println(",ou=Departments,dc=contacts,dc=heigvd,dc=ch");
                 bw.println("cn: Dpt" + dpt);
                 bw.println("objectClass: top");
                 bw.println("objectClass: groupOfURLs");
-                bw.println("ou: Department");
+                bw.println("ou: Departments");
                 bw.print("memberURL: ldap:///ou=People,dc=contacts,dc=heigvd,dc=ch??sub?");
                 bw.println("departmentNumber=" + dpt);
             }
+            bw.println();
             
         } catch (IOException ex) {
             Logger.getLogger(DataGenerator.class.getName()).log(Level.SEVERE, null, ex);
