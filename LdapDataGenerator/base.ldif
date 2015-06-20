@@ -17,3 +17,15 @@ dn: ou=Departments,dc=contacts,dc=heigvd,dc=ch
 objectClass: organizationalunit
 objectClass: top
 ou: Departments
+
+dn: ou=Groups,dc=contacts,dc=heigvd,dc=ch
+objectClass: organizationalunit
+objectClass: top
+ou: Groups
+
+dn: cn=StdA,ou=Groups,dc=contacts,dc=heigvd,dc=ch
+cn: StdA
+objectClass: top
+objectClass: groupOfURLs
+ou: Groups
+memberURL: ldap:///ou=People,dc=contacts,dc=heigvd,dc=ch??sub?(&(sn=A*)(employeeType=Etudiant))
