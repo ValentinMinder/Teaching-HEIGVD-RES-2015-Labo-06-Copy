@@ -14,9 +14,9 @@
 # <a name="Struct"></a> DIT Structure
 [![](images/RES_6_DIT.png)](images/RES_6_DIT.png)
 
-Our DIT uses the "dc=contacts,dc=heigvd,ch=ch" base.
+Our DIT uses the `dc=contacts,dc=heigvd,ch=ch` base.
 
-This base then contains two organisational units: People, which stores the entries of all the people in the directory, and Departments, which stores groups of people in a specific department. This is done with a flat structure, with the department name stored in the entries in People, and the entries in Departments being dynamic groups that look for said department name.
+This base then contains two organisational units: `People`, which stores the entries of all the people in the directory, and `Departments`, which stores groups of people in a specific department. This is done with a flat structure, with the department name stored in the entries in People, and the entries in Departments being dynamic groups that look for said department name.
 
 # <a name="Map"></a> Mapping the CSV to DIT
 [![](images/RES_6_CSV.png)](images/RES_6_CSV.png)
@@ -51,9 +51,12 @@ The `LDAPParser.py` script simply creates all the domains and organisational uni
 `./ldapsearch -p 389 -b "dc=heigvd,dc=ch" "(&(employeeType=Etudiant)(departmentNumber=TIC))" cn`
 
 # <a name="Group"></a> Dynamic groupd commands
+
+The following commands require first adding the organisational unit `Groups` under `dc=contacts,dc=heigvd,dc=ch`
+
 * What command do you run to **define a dynamic group** that represents all members of the TIN Department?  
 `Department?`  
-`dn: cn=ExTIN,ou=Groups,dc=heigvd,dc=ch`  
+`dn: cn=ExTIN,ou=Groups,dc=contacts,dc=heigvd,dc=ch`  
 `cn: ExTIN`  
 `objectClass: top`  
 `objectClass: groupOfURLs`  
@@ -61,10 +64,10 @@ The `LDAPParser.py` script simply creates all the domains and organisational uni
 `memberURL: ldap:///ou=People,dc=heigvd,dc=ch??sub?departmentNumber=TIN`
 
 * What command do you run to **get the list of all members of the TIN Department**?  
-`./ldapsearch -p 389 -b "dc=contacts,dc=heigvd,dc=ch" "isMemberOf=cn=ExTIN" cn`
+`./ldapsearch -p 389 -b "dc=contacts,dc=heigvd,dc=ch" "isMemberOf=cn=ExTIN,ou=Groups,dc=contacts,dc=heigvd,dc=ch" cn`
 
 * What command do you run to **define a dynamic group** that represents all students with a last name starting with the letter 'A'?  
-`dn: cn=StdA,ou=Groups,dc=heigvd,dc=ch`  
+`dn: cn=StdA,ou=Groups,dc=contacts,dc=heigvd,dc=ch`  
 `cn: StdA`  
 `objectClass: top`  
 `objectClass: groupOfURLs`  
@@ -72,7 +75,7 @@ The `LDAPParser.py` script simply creates all the domains and organisational uni
 `memberURL: ldap:///ou=People,dc=contacts,dc=heigvd,dc=ch??sub?(&(sn=A*)(employeeType=Etudiant))`
 
 * What command do you run to **get the list** of these students?  
-`./ldapsearch -p 389 -b "dc=heigvd,dc=ch" "isMemberOf=cn=StdA" cn`
+`./ldapsearch -p 389 -b "dc=heigvd,dc=ch" "isMemberOf=cn=StdA,ou=Groups,dc=contacts,dc=heigvd,dc=ch" cn`
 
 # <a name="End"></a> Conclusion
 
