@@ -44,6 +44,7 @@ public class DataReaderFromCSVToLDIF {
             // read the CSV
             final int nbColumn = 8;
             String[] token;
+            int count = 0;
             while(null != (line = in.readLine())) {
                 // CSV = comma-separated values = split by commas
                 token = line.split(",");
@@ -87,6 +88,12 @@ public class DataReaderFromCSVToLDIF {
                 if (hasExtendedSchema) {
                     bw.println("gender: " + token[5]);
                 } //
+                
+                // in case of data bigger than 3000, we skip the rest !
+                ++count;
+                if (count >= 3000) {
+                    break;
+                }
             }
 
             // handling departments
