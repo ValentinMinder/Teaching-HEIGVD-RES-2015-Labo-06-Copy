@@ -1,0 +1,58 @@
+Introduction
+
+
+
+
+
+Field correspondance
+
+person
+mandatory: sn, cn
+optional: telephoneNumber, description
+
+organizationalPerson
+optional: title, 
+
+inetOrgPerson
+optional: departmentNumber, employeeType, mail, givenName, uid
+
+heigPerson
+optional: gender
+
+Source: http://www.zytrax.com/books/ldap/ape/
+
+
+Creating new classes and attributes
+Sources:
+http://hasini-gunasinghe.blogspot.ch/2011/02/how-to-introduce-custom-attributes-to.html
+https://directory.apache.org/apacheds/basic-ug/2.3.1-adding-schema-elements.html
+http://docs.oracle.com/cd/B14099_19/idmanage.1012/b15883/ldif_appendix003.htm
+https://www.netiq.com/documentation/edir88/edir88tshoot/data/bq0e8ou.html
+
+Example: http://opendj.forgerock.org/Example.ldif
+
+
+Problems with size of directory
+LDAP_INSUFFICIENT_ACCESS
+Indicates that the caller does not have sufficient rights to perform the requested operation.
+
+Source:
+http://docs.forgerock.org/en/opendj/2.6.0/admin-guide/#about-privileges
+https://blogs.oracle.com/kanthi/entry/ldap_paged_results_more
+
+unindexed-search*
+Search using a filter with no correponding index
+
+Looking through all entries is resource-intensive for large directories. For this reason, the unindexed-search privilege, allowing users to request searches for which no applicable index exists, is reserved for the directory root user by default.
+
+Rather than granting the unindexed-search privilege to more users and client applications, you configure indexes to correspond to the searches that clients need to perform.
+
+
+Conclusion
+
+
+Sources (general)
+https://docs.oracle.com/cd/E19313-01/817-7616/ldif.html
+https://opends.java.net/
+http://opendj.forgerock.org/opendj-server/doc/bootstrap/admin-guide/index.html
+http://opendj.forgerock.org/Example.ldif
