@@ -18,6 +18,8 @@ import java.util.logging.Logger;
  */
 public class DataReaderFromCSVToLDIF {
 
+    // should be true if a class "heigPerson" with a "gender" has been defined
+    public static final boolean hasExtendedSchema = false;
     /**
      * @param args the command line arguments
      */
@@ -26,7 +28,7 @@ public class DataReaderFromCSVToLDIF {
         BufferedReader in;
         BufferedReader base;
         try {
-            bw = new PrintWriter(new OutputStreamWriter(new FileOutputStream("users.ldif"), "UTF-8"));
+            bw = new PrintWriter(new OutputStreamWriter(new FileOutputStream("javausers.ldif"), "UTF-8"));
             in = new BufferedReader(new FileReader("users.csv"));
             base = new BufferedReader(new FileReader("base.ldif"));
             
@@ -42,6 +44,7 @@ public class DataReaderFromCSVToLDIF {
             // read the CSV
             final int nbColumn = 8;
             String[] token;
+            int count = 0;
             while(null != (line = in.readLine())) {
                 // CSV = comma-separated values = split by commas
                 token = line.split(",");
@@ -65,10 +68,13 @@ public class DataReaderFromCSVToLDIF {
                 bw.println("objectClass: person");
                 bw.println("objectClass: organizationalPerson");
                 bw.println("objectClass: inetOrgPerson");
+                if (hasExtendedSchema) {
+                    bw.println("objectClass: heigPerson");
+                }
                 bw.println("uid: " + token[0]);
                 bw.println("sn: " + token[1]); // surname
                 bw.println("givenName: " + token[2] ); // given name
-                bw.println("cn: " + token[1] + " " + token[2]); // commun name
+                bw.println("cn: "  + token[2] + " " + token[1]); // commun name
                 bw.println("telephoneNumber: " + token[3]);
                 bw.println("mail: " + token[4]);
                 bw.println("departmentNumber: " + token[6] );
@@ -76,8 +82,18 @@ public class DataReaderFromCSVToLDIF {
                 departements.add(token[6]);
                 bw.println("employeeType: " + token[7]);
                 
-                // TODO: sex better than this description
-                bw.println("description: SEX=" + token[5]);
+                // we write the title in ALL cases
+                bw.println("title: " + (token[5].equals(Person.Gender.FEMALE.name()) ? "Miss": "Mister"));
+                // in case of extended schema, with heigPerson and gender, write the gender
+                if (hasExtendedSchema) {
+                    bw.println("gender: " + token[5]);
+                } //
+                
+                // in case of data bigger than 3000, we skip the rest !
+                ++count;
+                if (count >= 3000) {
+                    break;
+                }
             }
 
             // handling departments
@@ -85,14 +101,15 @@ public class DataReaderFromCSVToLDIF {
                 bw.println();
                 dpt = dpt.trim();
                 bw.print("dn: cn=Dpt" + dpt);
-                bw.println(",ou=Department,dc=contacts,dc=heigvd,dc=ch");
+                bw.println(",ou=Departments,dc=contacts,dc=heigvd,dc=ch");
                 bw.println("cn: Dpt" + dpt);
                 bw.println("objectClass: top");
                 bw.println("objectClass: groupOfURLs");
-                bw.println("ou: Department");
+                bw.println("ou: Departments");
                 bw.print("memberURL: ldap:///ou=People,dc=contacts,dc=heigvd,dc=ch??sub?");
                 bw.println("departmentNumber=" + dpt);
             }
+            bw.println();
             
         } catch (IOException ex) {
             Logger.getLogger(DataGenerator.class.getName()).log(Level.SEVERE, null, ex);

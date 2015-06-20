@@ -13,10 +13,10 @@ objectClass: organizationalunit
 objectClass: top
 ou: People
 
-dn: ou=Department,dc=contacts,dc=heigvd,dc=ch
+dn: ou=Departments,dc=contacts,dc=heigvd,dc=ch
 objectClass: organizationalunit
 objectClass: top
-ou: Department
+ou: Departments
 
 dn: ou=Groups,dc=contacts,dc=heigvd,dc=ch
 objectClass: organizationalunit
