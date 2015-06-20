@@ -6,10 +6,12 @@
 1. [Mapping the CSV to DIT](#Map)
 1. [Prerequisite: Vagrant and OpenDJ](#GetStarted)
 1. [Importing data](#Import)
+1. [Field correspondance: new attribute and class](#Field)
 1. [LDAP filter commands](#Filter)
 1. [Dynamic group commands](#Group)
 1. [Issues](#Issues)
 1. [Conclusion](#End)
+
 
 # <a name="Intro"></a> Introduction
 
@@ -37,7 +39,7 @@ One line in the CSV file corresponds to one entry in the directory. The image ab
 
 We use `departmentNumber` despite our departments being represented by letters because the field accepts all alphanumeric characters.
 
-# <a name="GetStarted"></a> Prerequisite: Getting ready with Vagrant and OpenDJ
+# <a name="GetStarted"></a> Prerequisite: Vagrant and OpenDJ
 
 First, clone this repo.
 [Vagrant - OpenDJ repository](https://github.com/ValentinMinder/Teaching-HEIGVD-RES-2015-OpenDJ)
@@ -83,6 +85,57 @@ Documentation about LDIF (LDAP Data Interchange Format) can be found on.
 [Oracle documentation about LDIF](https://docs.oracle.com/cd/E19313-01/817-7616/ldif.html)
 
 [LDIF documentation and example](http://opendj.forgerock.org/Example.ldif)
+
+# <a name="Field"></a> Field correspondance: new attribute and class
+
+LDAP defines by default a few classes, and mong them are person, organizationalPerson, inetOrgPerson. They declare the following atttribute (only those that are interesting in this lab are displayed)
+
+person: sn, cn, telephoneNumber, description
+
+organizationalPerson: title
+
+inetOrgPerson: departmentNumber, employeeType, mail, givenName, uid
+
+In our context, we are missing a **gender field**. Of course, we could write in the description field somehting like SEX=MALE, but that wouldn't be very nice and clean. We could also write the in the title field (that's what we actually do). It can work if we have only "Sir" and "Madam", but what if we have "Professor" ? We couldn't differentiate properly. The only way to have a real "gender" field would be to declare it, and then create a subclass of inetOrgPerson that can have a "gender" field. Type the following command (it give you directory management edition, such that you can edit the schema):
+
+```
+ldapmodify -D "cn=directory manager" -p 389 -a
+```
+Enter, and then (it will create the gender attribute in the directory manager)
+
+```
+dn: cn=schema
+changetype: modify
+add: attributeTypes
+attributeTypes: ( 2.25.128424792425578037463837247958458780603.1
+        NAME 'gender'
+        EQUALITY caseIgnoreMatch
+        SUBSTR caseIgnoreSubstringsMatch
+        SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
+```
+
+Enter, and then (it will create a subclass of inetOrgPerson with optional gender attribute)
+```
+dn: cn=schema
+changetype: modify
+add: objectClasses
+objectClasses: ( 2.25.128424792425578037463837247958458780603.2
+    NAME 'heigPerson'
+    DESC 'heigPerson'
+    SUP inetOrgPerson
+    STRUCTURAL
+    MAY  ( dateOfBirth $ gender)
+ )
+ ``` 
+And you're done!
+
+Sources:
+[Example of LDIF](http://opendj.forgerock.org/Example.ldif) / 
+[Apache Add Elements to Schema](https://directory.apache.org/apacheds/basic-ug/2.3.1-adding-schema-elements.html) / 
+[Oracle LDIF Appendix](http://docs.oracle.com/cd/B14099_19/idmanage.1012/b15883/ldif_appendix003.htm) /
+[NetIQ New Object Class](https://www.netiq.com/documentation/edir88/edir88tshoot/data/bq0e8ou.html) /
+[Appendix E: LDAP - Object Classes and Attributes](http://www.zytrax.com/books/ldap/ape/) /
+[Custom Attribute](http://hasini-gunasinghe.blogspot.ch/2011/02/how-to-introduce-custom-attributes-to.html)
 
 # <a name="Filter"></a> LDAP filter commands
 
