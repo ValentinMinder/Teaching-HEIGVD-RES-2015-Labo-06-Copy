@@ -32,7 +32,6 @@ objectClass: top
 objectClass: groupOfURLs
 ou: Groups
 memberURL: ldap:///ou=People,dc=contacts,dc=heigvd,dc=ch??sub?(&(sn=A*)(employeeType=Etudiant))
-memberURL: ldap:///ou=People,dc=heigvd,dc=ch??sub?sn=A*?employeeType=Etudiant
 
 // What command do you run to get the list of these students?
 ./ldapsearch -p 389 -b "dc=heigvd,dc=ch" "(isMemberOf=cn=StdA,ou=Groups,dc=heigvd,dc=ch)" cn
