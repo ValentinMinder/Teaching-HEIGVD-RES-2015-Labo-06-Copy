@@ -14,8 +14,16 @@
 # <a name="Struct"></a> DIT Structure
 [![](images/RES_6_DIT.png)](images/RES_6_DIT.png)
 
+Our DIT uses the "dc=contacts,dc=heigvd,ch=ch" base.
+
+This base then contains two organisational units: People, which stores the entries of all the people in the directory, and Departments, which stores groups of people in a specific department. This is done with a flat structure, with the department name stored in the entries in People, and the entries in Departments being dynamic groups that look for said department name.
+
 # <a name="Map"></a> Mapping the CSV to DIT
 [![](images/RES_6_CSV.png)](images/RES_6_CSV.png)
+
+One line in the CSV file corresponds to one entry in the directory. The image above illustrates which fields of the CSV correspond to which field in the LDIF entry. They are all copied as-is, other than the `MALE/FEMALE` field, which is stored under `title`.
+
+We use `departmentNumber` despite our departments being represented by letters because the field accepts all alphanumeric characters.
 
 # <a name="Import"></a> Importing data
 
@@ -56,7 +64,6 @@ The `LDAPParser.py` script simply creates all the domains and organisational uni
 `./ldapsearch -p 389 -b "dc=contacts,dc=heigvd,dc=ch" "isMemberOf=cn=ExTIN" cn`
 
 * What command do you run to **define a dynamic group** that represents all students with a last name starting with the letter 'A'?  
-`name starting with the letter 'A'?`  
 `dn: cn=StdA,ou=Groups,dc=heigvd,dc=ch`  
 `cn: StdA`  
 `objectClass: top`  
