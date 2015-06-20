@@ -81,7 +81,10 @@ for line in input:
         p("cn", s[2] + " " + s[1])
         p("telephoneNumber", s[3])
         p("mail", s[4])
-        # s[5]?
+        if "FEMALE" in s[5]:
+            p("title","Ms")
+        else:
+            p("title","Mr")
         p("departmentNumber", s[6])
         p("employeeType", s[7])
         dpts.add(s[6])
