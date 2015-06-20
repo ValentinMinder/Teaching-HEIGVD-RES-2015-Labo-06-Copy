@@ -88,7 +88,7 @@ Documentation about LDIF (LDAP Data Interchange Format) can be found on.
 
 # <a name="Field"></a> Field correspondance: new attribute and class
 
-LDAP defines by default a few classes, and mong them are person, organizationalPerson, inetOrgPerson. They declare the following atttribute (only those that are interesting in this lab are displayed)
+LDAP defines by default a few classes, and among them are person, organizationalPerson, and inetOrgPerson. They declare, among others, the following attributes (only those that are of interest for this lab are shown):
 
 person: sn, cn, telephoneNumber, description
 
@@ -96,12 +96,12 @@ organizationalPerson: title
 
 inetOrgPerson: departmentNumber, employeeType, mail, givenName, uid
 
-In our context, we are missing a **gender field**. Of course, we could write in the description field somehting like SEX=MALE, but that wouldn't be very nice and clean. We could also write the in the title field (that's what we actually do). It can work if we have only "Sir" and "Madam", but what if we have "Professor" ? We couldn't differentiate properly. The only way to have a real "gender" field would be to declare it, and then create a subclass of inetOrgPerson that can have a "gender" field. Type the following command (it give you directory management edition, such that you can edit the schema):
+In our context, we are missing a **gender field**. Of course, we could write in the description field something like `SEX=MALE`, but that wouldn't be very nice and clean. We could also write it in the title field (which is what we actually did). This works if we only use "Sir" and "Madam" (or "Mr" and "Ms"), but what if we need to have the title of "Professor"? We wouldn't be able to differentiate between them properly. The only way to have a real "gender" field would be to declare it, and then create a subclass of inetOrgPerson that can have a "gender" field. This can be done with the following command (it gives you directory management edition, so that you can edit the schema):
 
 ```
 ldapmodify -D "cn=directory manager" -p 389 -a
 ```
-Enter, and then (it will create the gender attribute in the directory manager)
+Enter, and then, to create the gender attribute in the directory manager:
 
 ```
 dn: cn=schema
@@ -114,7 +114,7 @@ attributeTypes: ( 2.25.128424792425578037463837247958458780603.1
         SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{1024} )
 ```
 
-Enter, and then (it will create a subclass of inetOrgPerson with optional gender attribute)
+Enter, and then, to create a subclass of inetOrgPerson with optional gender attribute:
 ```
 dn: cn=schema
 changetype: modify
