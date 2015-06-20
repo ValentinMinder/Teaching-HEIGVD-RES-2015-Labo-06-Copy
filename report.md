@@ -37,7 +37,7 @@ One line in the CSV file corresponds to one entry in the directory. The image ab
 
 We use `departmentNumber` despite our departments being represented by letters because the field accepts all alphanumeric characters.
 
-# <a name="Get started"></a> Prerequisite: Getting ready with Vagrant and OpenDJ
+# <a name="GetStarted"></a> Prerequisite: Getting ready with Vagrant and OpenDJ
 
 First, clone this repo.
 [Vagrant - OpenDJ repository](https://github.com/ValentinMinder/Teaching-HEIGVD-RES-2015-OpenDJ)
