@@ -36,46 +36,65 @@ The `LDAPParser.py` script simply creates all the domains and organisational uni
 # <a name="Filter"></a> LDAP filter commands
 
 * What is the **number** (not the list!) of people stored in the directory?  
-`./ldapsearch -p 389 -b "dc=heigvd, dc=ch" "ou=People" numsubordinates`
+```
+./ldapsearch -p 389 -b "dc=heigvd, dc=ch" "ou=People" numsubordinates
+```
+As you can see in the screenshot, despite of its name, the `--countEntries` option is useless for this question.
 
 * What is the **number** of departments stored in the directory?  
-`./ldapsearch -p 389 -b "dc=heigvd, dc=ch" "ou=Department" numsubordinates`
+```
+./ldapsearch -p 389 -b "dc=heigvd, dc=ch" ""(&(objectClass=OrganizationalUnit)(ou=Departments))"" numsubordinates
+```
+We have to specify `objectClass=OrganizationalUnit` because otherwise it will also count subordinates of actual Departements, which will be 0, not only the subordinates of OrganizationalUnit above it, which is the only interesting thing.
 
 * What is the **list** of people who belong to the TIC Department?  
-`./ldapsearch -p 389 -b "dc=heigvd,dc=ch" "departmentNumber=TIC" cn`
+```
+./ldapsearch -p 389 -b "dc=heigvd,dc=ch" "departmentNumber=TIC" cn
+```
 
 * What is the **list** of students in the directory?  
-`./ldapsearch -p 389 -b "dc=heigvd,dc=ch" "employeeType=Etudiant" cn`
+```
+./ldapsearch -p 389 -b "dc=heigvd,dc=ch" "employeeType=Etudiant" cn
+```
 
 * What is the **list** of students in the TIC Department?  
-`./ldapsearch -p 389 -b "dc=heigvd,dc=ch" "(&(employeeType=Etudiant)(departmentNumber=TIC))" cn`
+```
+./ldapsearch -p 389 -b "dc=heigvd,dc=ch" "(&(employeeType=Etudiant)(departmentNumber=TIC))" cn
+```
 
 # <a name="Group"></a> Dynamic groupd commands
 
 The following commands require first adding the organisational unit `Groups` under `dc=contacts,dc=heigvd,dc=ch`
 
 * What command do you run to **define a dynamic group** that represents all members of the TIN Department?  
-`Department?`  
-`dn: cn=ExTIN,ou=Groups,dc=contacts,dc=heigvd,dc=ch`  
-`cn: ExTIN`  
-`objectClass: top`  
-`objectClass: groupOfURLs`  
-`ou: Groups`  
-`memberURL: ldap:///ou=People,dc=contacts,dc=heigvd,dc=ch??sub?departmentNumber=TIN`
+```
+dn: cn=ExTIN,ou=Groups,dc=contacts,dc=heigvd,dc=ch
+cn: ExTIN
+objectClass: top
+objectClass: groupOfURLs
+ou: Groups
+memberURL: ldap:///ou=People,dc=contacts,dc=heigvd,dc=ch??sub?departmentNumber=TIN
+```
 
 * What command do you run to **get the list of all members of the TIN Department**?  
-`./ldapsearch -p 389 -b "dc=contacts,dc=heigvd,dc=ch" "isMemberOf=cn=ExTIN,ou=Groups,dc=contacts,dc=heigvd,dc=ch" cn`
+```
+./ldapsearch -p 389 -b "dc=contacts,dc=heigvd,dc=ch" "isMemberOf=cn=ExTIN,ou=Groups,dc=contacts,dc=heigvd,dc=ch" cn
+```
 
 * What command do you run to **define a dynamic group** that represents all students with a last name starting with the letter 'A'?  
-`dn: cn=StdA,ou=Groups,dc=contacts,dc=heigvd,dc=ch`  
-`cn: StdA`  
-`objectClass: top`  
-`objectClass: groupOfURLs`  
-`ou: Groups`  
-`memberURL: ldap:///ou=People,dc=contacts,dc=heigvd,dc=ch??sub?(&(sn=A*)(employeeType=Etudiant))`
+```
+dn: cn=StdA,ou=Groups,dc=contacts,dc=heigvd,dc=ch
+cn: StdA
+objectClass: top  
+objectClass: groupOfURLs  
+ou: Groups
+memberURL: ldap:///ou=People,dc=contacts,dc=heigvd,dc=ch??sub?(&(sn=A*)(employeeType=Etudiant))
+```
 
 * What command do you run to **get the list** of these students?  
-`./ldapsearch -p 389 -b "dc=heigvd,dc=ch" "isMemberOf=cn=StdA,ou=Groups,dc=contacts,dc=heigvd,dc=ch" cn`
+```
+./ldapsearch -p 389 -b "dc=heigvd,dc=ch" "isMemberOf=cn=StdA,ou=Groups,dc=contacts,dc=heigvd,dc=ch" cn
+```
 
 # <a name="End"></a> Conclusion
 
