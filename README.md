@@ -15,7 +15,7 @@
 
 ## <a name="Intro"></a> Introduction
 
-The purposes of this lab is to manage a LDAP directoy with an OpenDJ server running on a Vagrant virtual box. 
+The purposes of this lab is to manage a LDAP directoy with an OpenDJ server running on a Vagrant virtual box. It will solve the Lab 6 proposed in the [instructions](https://github.com/ValentinMinder/Teaching-HEIGVD-RES-2015-Labo-06-Copy/blob/master/LabInstructions.md).
 
 We first have to define how the directory is organized, and then we have to import data from a `.csv` file to the directory, with all step needed explicitely showed in details.
 
